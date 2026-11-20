@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A recruiting operations dashboard practice project using entirely synthetic data.">
+  <title>Pipeline Control Room — Recruiting Operations Workbench</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Main navigation">
+      <a class="brand" href="#top" aria-label="Workbench home">
+        <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span class="brand-copy"><b>northstar</b><small>PEOPLE OPERATIONS</small></span>
+      </a>
+      <div class="sidebar-label">WORKSPACE</div>
+      <nav>
+        <a class="nav-item active" href="#pipeline"><span class="nav-icon">▦</span> Pipeline</a>
+        <a class="nav-item" href="#tasks"><span class="nav-icon">◷</span> Follow-up queue <span class="nav-count" id="nav-followup-count">0</span></a>
+        <a class="nav-item" href="#quality"><span class="nav-icon">◇</span> Data quality</a>
+      </nav>
+      <div class="sidebar-note">
+        <span class="demo-dot"></span>
+        <div><b>Practice workspace</b><small>All records are synthetic</small></div>
+      </div>
+      <div class="sidebar-bottom">
+        <div class="avatar">FA</div>
+        <div class="sidebar-user"><b>Fuad Ashraf</b><small>Recruiting operations</small></div>
+        <span class="more">···</span>
+      </div>
+    </aside>
+
+    <main id="top" class="main-content">
+      <header class="topbar">
+        <div class="breadcrumbs"><span>Workspace</span><span class="crumb-sep">/</span><b>Pipeline</b></div>
+        <div class="topbar-right"><span class="practice-tag"><i></i> SYNTHETIC DATA DEMO</span><button class="icon-button" aria-label="Notifications">♧<span class="notification-dot"></span></button><div class="top-avatar">FA</div></div>
+      </header>
+
+      <section class="page-heading" id="pipeline">
+        <div>
+          <div class="eyebrow">MONDAY, 28 APRIL 2025 <span>·</span> SAMPLE WEEKLY REVIEW</div>
+          <h1>Pipeline control room</h1>
+          <p>Keep candidate records clean, follow-ups moving, and next steps visible.</p>
+        </div>
+        <div class="heading-actions"><button id="export-button" class="button secondary"><span>↓</span> Export CSV</button><button class="button primary" id="queue-button"><span>＋</span> Review task queue</button></div>
+      </section>
+
+      <section class="metric-grid" aria-label="Pipeline metrics">
+        <article class="metric-card">
+          <div class="metric-top"><span class="metric-label">ACTIVE CANDIDATES</span><span class="metric-icon blue">◉</span></div>
+          <div class="metric-value" id="metric-active">—</div><div class="metric-foot"><span class="metric-neutral">Across active stages</span></div>
+          <div class="sparkline blue-line"><span></span></div>
+        </article>
+        <article class="metric-card">
+          <div class="metric-top"><span class="metric-label">FOLLOW-UP DUE</span><span class="metric-icon orange">↗</span></div>
+          <div class="metric-value" id="metric-followup">—</div><div class="metric-foot"><span class="metric-warning">Needs an owner action</span></div>
+          <div class="sparkline orange-line"><span></span></div>
+        </article>
+        <article class="metric-card">
+          <div class="metric-top"><span class="metric-label">SCHEDULING GAPS</span><span class="metric-icon purple">◷</span></div>
+          <div class="metric-value" id="metric-scheduling">—</div><div class="metric-foot"><span class="metric-neutral">Interview stage, no slot set</span></div>
+          <div class="sparkline purple-line"><span></span></div>
+        </article>
+        <article class="metric-card">
+          <div class="metric-top"><span class="metric-label">POSSIBLE DUPLICATES</span><span class="metric-icon red">⧉</span></div>
+          <div class="metric-value" id="metric-duplicates">—</div><div class="metric-foot"><span class="metric-warning">Review before merging</span></div>
+          <div class="sparkline red-line"><span></span></div>
+        </article>
+      </section>
+
+      <section class="content-grid">
+        <article class="panel stage-panel">
+          <div class="panel-heading"><div><h2>Hiring pipeline</h2><p>Candidate count by current stage</p></div><span class="period-label">CURRENT SNAPSHOT <span>⌄</span></span></div>
+          <div class="stage-chart" id="stage-chart" aria-label="Candidate count by stage"></div>
+          <div class="chart-legend"><span><i class="legend-dot blue-bg"></i> In progress</span><span><i class="legend-dot green-bg"></i> Completed</span><span><i class="legend-dot gray-bg"></i> Closed</span></div>
+        </article>
+        <article class="panel attention-panel" id="tasks">
+          <div class="panel-heading"><div><h2>Needs attention</h2><p>Work that can unblock the candidate experience</p></div><button class="text-button" id="show-all-button">View all <span>→</span></button></div>
+          <div class="attention-list" id="attention-list"></div>
+        </article>
+      </section>
+
+      <section class="panel records-panel" id="quality">
+        <div class="records-heading">
+          <div><h2>Candidate records</h2><p>Filter the sample pipeline and inspect record hygiene.</p></div>
+          <div class="record-actions">
+            <label class="search-box"><span>⌕</span><input id="search-input" type="search" placeholder="Search name, role or ID" aria-label="Search candidate records"></label>
+            <label class="select-wrap"><span class="sr-only">Filter by stage</span><select id="stage-filter"><option value="all">All stages</option></select><b>⌄</b></label>
+            <label class="select-wrap"><span class="sr-only">Filter by record health</span><select id="health-filter"><option value="all">All record health</option><option value="attention">Needs attention</option><option value="clear">Looks clear</option></select><b>⌄</b></label>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Candidate <span>↕</span></th><th>Role</th><th>Stage</th><th>Source</th><th>Last touch</th><th>Next action</th><th>Record health</th><th></th></tr></thead>
+            <tbody id="candidate-rows"></tbody>
+          </table>
+          <div class="empty-state" id="empty-state" hidden>No records match these filters.</div>
+        </div>
+        <div class="table-footer"><span id="record-count">—</span><span>Sample records only · No real candidate data</span></div>
+      </section>
+
+      <footer class="footer"><span>RECRUITING OPERATIONS WORKBENCH <b>·</b> INDEPENDENT PRACTICE PROJECT</span><a href="README.md">Project notes ↗</a></footer>
+    </main>
+  </div>
+
+  <dialog id="candidate-dialog" class="candidate-dialog">
+    <button class="dialog-close" id="dialog-close" aria-label="Close details">×</button>
+    <div id="candidate-detail"></div>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
