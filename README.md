@@ -2,8 +2,8 @@
 
 An interactive practice project for reviewing recruiting-pipeline records, spotting follow-up and scheduling gaps, identifying possible duplicates, and exporting a clean tracker.
 
-**Project type:** independent portfolio practice project  
-**Data:** entirely synthetic  
+**Project type:** independent portfolio practice project
+**Data:** entirely synthetic
 **Stack:** HTML, CSS, and vanilla JavaScript; no frameworks or external service required
 
 ## What it demonstrates
